@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controlador.Controlador;
+import modelo.Animal;
+
 
 import javax.swing.JTextField;
 import javax.swing.GroupLayout;
@@ -14,6 +16,10 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.awt.event.ActionEvent;
 
 public class Principal extends JFrame {
 
@@ -21,6 +27,7 @@ public class Principal extends JFrame {
 	private JTextField textField;
 	
 	private Controlador controlador;
+	private JLabel lblInfo;
 
 	
 
@@ -37,11 +44,21 @@ public class Principal extends JFrame {
 		textField = new JTextField();
 		textField.setColumns(10);
 		
-		JLabel lblInfo = new JLabel("New label");
+		lblInfo = new JLabel("New label");
 		
 		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controlador.insertar(textField.getText());
+			}
+		});
 		
 		JButton btnMostrar = new JButton("Mostrar");
+		btnMostrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				controlador.mostrar();
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -74,6 +91,24 @@ public class Principal extends JFrame {
 
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
+	}
+
+	public void clear() {
+		this.textField.setText("");
+		
+	}
+
+	public void mostrarInfo(ArrayList<Animal> animales) {
+		String info = "";
+		Iterator<Animal> iterator = animales.iterator();
+		while (iterator.hasNext()) {
+			info = info + iterator.next().getNombre() + " - ";
+		}
+		
+		this.lblInfo.setText(info);
+		
+
+		
 	}
 
 }
